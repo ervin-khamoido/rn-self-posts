@@ -4,13 +4,12 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import {useDispatch, useSelector} from 'react-redux';
 
 import { AppHeaderIcon } from "../components/AppHeaderIcon";
-import { DATA } from "../data";
-import { toggleBooked } from "../store/actions/post";
+import { removePost, toggleBooked } from "../store/actions/post";
 import {THEME} from '../theme';
 
 export const PostScreen = ({navigation}) => {
    const postId = navigation.getParam('postId');
-   const post = DATA.find(p => p.id === postId);
+   const post = useSelector(state => state.post.allPosts.find(p => p.id === postId));
    const dispatch = useDispatch();
 
    const booked = useSelector(state => state.post.bookedPosts.some(post => post.id === postId))
@@ -39,10 +38,17 @@ export const PostScreen = ({navigation}) => {
             {
                text: 'Delete',
                style: 'destructive',
-               onPress: () => {}
+               onPress() {
+                  navigation.navigate('Main');
+                  dispatch(removePost(postId))
+               }
             }
          ]
       )
+   }
+
+   if (!post) {
+      return null
    }
 
    return (
