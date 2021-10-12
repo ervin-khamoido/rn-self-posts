@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {View, Text, StyleSheet, TextInput, Image, Button, ScrollView, TouchableWithoutFeedback, Keyboard} from "react-native";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import {useDispatch} from 'react-redux';
 
 import { AppHeaderIcon } from "../components/AppHeaderIcon";
+import { PhotoPicker } from "../components/PhotoPicker";
 import { addPost } from "../store/actions/post";
 import { THEME } from "../theme";
 
 export const CreateScreen = ({navigation}) => {
    const [text, setText] = useState('');
-   const img = 'https://static.coindesk.com/wp-content/uploads/2019/01/shutterstock_1012724596-860x430.jpg';
+   const [img, setImg] = useState(null);
 
    const dispatch = useDispatch();
 
@@ -23,6 +24,10 @@ export const CreateScreen = ({navigation}) => {
 
       dispatch(addPost(post));
       navigation.navigate('Main');
+   }
+
+   const photoPickHandler = uri => {
+      setImg(uri)
    }
 
    return (
@@ -39,8 +44,14 @@ export const CreateScreen = ({navigation}) => {
                   multiline
                />
 
-               <Image style={{width: '100%', height: 200, marginBottom: 10}} source={{uri: img}} />
-               <Button title='Create the post' color={THEME.MAIN_COLOR} onPress={saveHandler} />
+               <PhotoPicker onPick={photoPickHandler} />
+
+               <Button 
+                  title='Create the post' 
+                  color={THEME.MAIN_COLOR} 
+                  onPress={saveHandler} 
+                  disabled={!text || !img}
+               />
             </View>
          </TouchableWithoutFeedback>
       </ScrollView>
