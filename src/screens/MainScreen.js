@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, ActivityIndicator } from "react-native";
-import { View } from "react-native";
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
