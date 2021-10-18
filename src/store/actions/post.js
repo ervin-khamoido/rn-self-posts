@@ -2,7 +2,7 @@ import { ADD_POST, LOAD_POSTS, REMOVE_POST, TOGGLE_BOOKED } from "../types";
 import * as FileSystem from 'expo-file-system';
 import { DB } from "../../db";
 
-export const loadPosts =  () => {
+export const loadPosts = () => {
    return async dispatch => {
       const posts = await DB.getPosts();
 
@@ -15,18 +15,22 @@ export const loadPosts =  () => {
    }
 }
 
-export const toggleBooked = id => {
-   return {
+export const toggleBooked = post => async dispatch => {
+   await DB.updatePost(post);
+
+   dispatch({
       type: TOGGLE_BOOKED,
-      payload: id
-   }
+      payload: post.id
+   })
 }
 
-export const removePost = id => {
-   return {
+export const removePost = id => async dispatch => {
+   await DB.removePost(id);
+
+   dispatch({
       type: REMOVE_POST,
       payload: id
-   }
+   })
 }
 
 export const addPost = post => async dispatch => {
