@@ -18,7 +18,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ervingg.self_blog_rn_app",
+      "bundleIdentifier": "com.ervingg.selfblogrnapp",
       "buildNumber": "1.0.0"
     },
     "android": {
